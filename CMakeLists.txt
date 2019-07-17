@@ -28,7 +28,9 @@ find_package(ALPSCore REQUIRED COMPONENTS hdf5 accumulators mc params HINTS ${AL
 
 # Dependencies
 add_alpscore()
-add_eigen3()
+if (NOT ALPSCore_HAS_EIGEN_VERSION)
+    add_eigen3()
+endif (NOT ALPSCore_HAS_EIGEN_VERSION)
 add_gftools()
 option(BuildPython "Build python modules" OFF)
 if (BuildPython)
@@ -43,6 +45,9 @@ endif()
 
 # fftw3
 add_fftw3()
+
+# https://stackoverflow.com/questions/25365160/boostmultiprecisionfloat128-and-c11
+add_definitions("-fext-numeric-literals")
 
 ### add source/binary root of the project to included path
 include_directories(
